@@ -41,6 +41,7 @@ const returnSquaredIfFoundEven_v1 = (a: number[]): number => {
     }
 }
 
-export const returnSquaredIfFoundEven_v2 : (a:number[])=>Result<number> = (a:number[])=>bind(findResult<number>((x:number)=>x%2===0,a),(x:number)=> ({tag:"Ok",value:x*x}))
+export const returnSquaredIfFoundEven_v2 : (a:number[])=>Result<number> = 
+(a:number[])=>bind(findResult<number>((x:number)=>x%2===0,a),(x:number)=> ({tag:"Ok",value:x*x}))
 
-export const returnSquaredIfFoundEven_v3 : undefined = undefined;
+export const returnSquaredIfFoundEven_v3 : (a:number[])=>number = (a:number[])=>either(findResult((x)=>x%2===0,a),(x:number)=>x*x,(x:string)=>-1);
