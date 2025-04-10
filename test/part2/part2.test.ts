@@ -136,6 +136,76 @@ describe("Assignment 1 - Part 2", () => {
 
             expect(treeToSentence(tree)).toBe("   ");
         });
+
+        it("should handle a tree with just a root node", () => {
+            const tree: WordTree = {
+                root: "SingleWord",
+                children: []
+            };
+            expect(treeToSentence(tree)).toBe("SingleWord");
+        });
+    
+        it("should handle a complex nested structure", () => {
+            const tree: WordTree = {
+                root: "Level1",
+                children: [
+                    { 
+                        root: "Level2A", 
+                        children: [
+                            { 
+                                root: "Level3A", 
+                                children: [
+                                    { root: "Level4", children: [] }
+                                ] 
+                            }
+                        ] 
+                    },
+                    { 
+                        root: "Level2B", 
+                        children: [
+                            { root: "Level3B", children: [] }
+                        ] 
+                    }
+                ]
+            };
+            expect(treeToSentence(tree)).toBe("Level1 Level2A Level3A Level4 Level2B Level3B");
+        });
+    
+        it("should handle trees with nodes containing multiple words", () => {
+            const tree: WordTree = {
+                root: "this is",
+                children: [
+                    { root: "a multi-word", children: [] },
+                    { root: "node test", children: [] }
+                ]
+            };
+            expect(treeToSentence(tree)).toBe("this is a multi-word node test");
+        });
+    
+        it("should handle a tree with empty string root but no children", () => {
+            const tree: WordTree = {
+                root: "",
+                children: []
+            };
+            expect(treeToSentence(tree)).toBe("");
+        });
+    
+        it("should correctly handle unbalanced trees", () => {
+            const tree: WordTree = {
+                root: "root",
+                children: [
+                    { 
+                        root: "branch1", 
+                        children: [
+                            { root: "leaf1", children: [] },
+                            { root: "leaf2", children: [] }
+                        ] 
+                    },
+                    { root: "branch2", children: [] }
+                ]
+            };
+            expect(treeToSentence(tree)).toBe("root branch1 leaf1 leaf2 branch2");
+        });
         // Your tests here (optional)
 
     });
