@@ -9,7 +9,7 @@ export const countVowels: (x:string) => number = (x:string)=>(stringToArray(x).f
 
 /* Question 2 */
 const isLetter = (char: string): boolean => 
-    (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z');
+    (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >='0' && char<='9');
   
   // Process string to get only lowercase letters
 const processString = R.pipe(

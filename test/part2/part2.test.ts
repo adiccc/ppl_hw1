@@ -66,6 +66,13 @@ describe("Assignment 1 - Part 2", () => {
         it("should handle complex palindromes with mixed characters", () => {
             expect(isPalindrome("No 'x' in Nixon")).toBe(true);
         });
+        
+        it("should handle complex palindromes with mixed characters and numbers", () => {
+            expect(isPalindrome("N9o 'x' in Nixo9n")).toBe(true);
+        });
+        it("should handle complex palindromes with mixed characters and numbers", () => {
+            expect(isPalindrome("No 'x' in Nixo9n")).toBe(false);
+        });
     });
 
     describe("treeToSentence", () => {
