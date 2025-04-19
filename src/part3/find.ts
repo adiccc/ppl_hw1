@@ -1,6 +1,5 @@
 import { reduce, T } from "ramda";
 import { Result, makeFailure, makeOk, bind, either, isFailure } from "../lib/result";
-
 type Ok<T> = {
     tag: "Ok";
     value: T;
@@ -19,16 +18,13 @@ const findOrThrow = <T>(pred: (x: T) => boolean, a: T[]): T => {
     throw "No element found.";
 }
 
-export const findResult = <T>(
-    pred: (x: T) => boolean,
-    a: T[]
-  ): Result<T> =>
-    a.reduce<Result<T>>(
-      (acc, curr) =>
-        acc.tag === "Failure" && pred(curr)
-          ? { tag: "Ok", value: curr }
-          : acc,
-      { tag: "Failure", message: "not found" }
+
+export const findResult = <T>(pred: (x: T) => boolean, arr: T[]): Result<T> => 
+    arr.reduce(
+        (acc, curr) => isFailure(acc) && pred(curr) 
+            ? makeOk(curr) 
+            : acc,
+        makeFailure("No element found") as Result<T>
     );
 
 /* Client code */
@@ -42,6 +38,10 @@ const returnSquaredIfFoundEven_v1 = (a: number[]): number => {
 }
 
 export const returnSquaredIfFoundEven_v2 : (a:number[])=>Result<number> = 
-(a:number[])=>bind(findResult<number>((x:number)=>x%2===0,a),(x:number)=> ({tag:"Ok",value:x*x}))
+(a:number[])=>bind(findResult<number>((x:number)=>x%2===0,a),(x:number)=> (makeOk(x*x)))
 
-export const returnSquaredIfFoundEven_v3 : (a:number[])=>number = (a:number[])=>either(findResult((x)=>x%2===0,a),(x:number)=>x*x,(x:string)=>-1);
+export const returnSquaredIfFoundEven_v3 : (a:number[])=>number = (a:number[])=>
+    either(
+        findResult((x)=>x%2===0,a),
+        (x:number)=>x*x,
+        (x:string)=>-1);
