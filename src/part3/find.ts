@@ -18,14 +18,12 @@ const findOrThrow = <T>(pred: (x: T) => boolean, a: T[]): T => {
     throw "No element found.";
 }
 
+const iterate = <T>(pred: (x:T) => boolean,a: T[],i:number): Result<T> =>
+    i>=a.length ? makeFailure("no element found!"): 
+    pred(a[i]) ? makeOk(a[i]) : iterate(pred,a,i+1)
 
 export const findResult = <T>(pred: (x: T) => boolean, arr: T[]): Result<T> => 
-    arr.reduce(
-        (acc, curr) => isFailure(acc) && pred(curr) 
-            ? makeOk(curr) 
-            : acc,
-        makeFailure("No element found") as Result<T>
-    );
+    iterate(pred,arr,0)
 
 /* Client code */
 const returnSquaredIfFoundEven_v1 = (a: number[]): number => {
